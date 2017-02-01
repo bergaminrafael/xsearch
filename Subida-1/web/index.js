@@ -21,7 +21,22 @@ app.get('/search', function (req, res) {
           }
         }
       }
-    }).then(function (resp) {        
+    }).then(function (resp) {
+        resp.hits.hits = resp.hits.hits.map(r=>{    
+                               var parts = r._source.content.split(new RegExp('(' + query.q + ')', 'gi'));
+                                var text = "";
+                                var flag = false;
+                                parts.forEach(p =>{
+                                    if(p.length > 100){
+                                        text += "..."+p.substr(p.length-100,p.length);    
+                                    }else{
+                                        text += p;
+                                    }
+                                    text += " ";
+                                });
+                               r._source.content = text;
+                               return r;
+                            });
         res.send(resp.hits);        
     }, function (err) {    
     });    
