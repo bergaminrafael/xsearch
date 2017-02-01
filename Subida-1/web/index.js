@@ -10,7 +10,7 @@ app.get('/search', function (req, res) {
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
     client.search({
-      index: 'teste',
+      index: 'xsearch',
       size:query.size,
       from:query.from,
       type: 'doc',
