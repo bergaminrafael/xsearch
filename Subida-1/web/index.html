@@ -203,7 +203,7 @@
                                     text += " ";
                                 });
                                r._source.content = text;
-                               r.svnUrl = encodeURI(r._source.file.url.replace("file:///Users/philippe/Projetos/Radix/","http://200.189.101.70/svn/"));
+                               r.svnUrl = encodeURI(r._source.file.url);
                                return r;
                             });
                           }
