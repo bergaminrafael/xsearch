@@ -1,0 +1,33 @@
+{
+  "name" : "xsearch",
+  "fs" : {
+    "url" : "/",
+	"includes":[".*(docx|doc|ppt|pptx|pdf|xls|xlsx)$"],	
+	"excludes_dir":[".*(/branches/|/tags/|/src/|/0.SMSR/).*$"],	
+    "update_rate" : "15m",
+    "json_support" : false,
+    "filename_as_id" : false,
+    "add_filesize" : true,
+    "remove_deleted" : true,
+    "store_source" : false,
+    "index_content" : true,
+    "attributes_support" : false,
+    "raw_metadata" : true,
+    "xml_support" : false
+  },
+  "server" : {
+    "hostname" : "HOSTNAME",
+    "username" : "USERNAME",
+    "password" : "PASSWORD",
+    "protocol" : "svn"
+  },
+  "elasticsearch" : {
+    "nodes" : [ {
+      "host" : "127.0.0.1",
+      "port" : 9200
+    } ],
+    "type" : "doc",
+    "bulk_size" : 100,
+    "flush_interval" : "5s"
+  }
+}
