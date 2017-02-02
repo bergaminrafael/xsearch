@@ -78,6 +78,7 @@
         font-size: 14px;
         font-weight: bolder;
         padding: 10px;
+        cursor:pointer;
     }
     
     
@@ -174,28 +175,47 @@
             methods:{
                 paginar:function(page){
                     this.currentPage = page-1;
-                    this.pesquisar();
-                },
-                pesquisar:function(){
                     $.ajax({
-                          url: "/search",
-                          data: {
-                           "q":this.q,
-                           "size":15,
-                           "from":this.currentPage * 15
-                          },
-                          success: function( resultado ) {  
-                            if(resultado.total <= 15){
-                                app.pages = 0;
-                            }else{
-                                app.pages = Math.ceil(resultado.total / 15);    
-                            }                            
-                            app.messages = resultado.hits.map(r=>{                               
-                               r.svnUrl = encodeURI(r._source.file.url);
-                               return r;
-                            });
-                          }
+                      url: "/search",
+                      data: {
+                       "q":this.q,
+                       "size":15,
+                       "from":this.currentPage * 15
+                      },
+                      success: function( resultado ) {  
+                        if(resultado.total <= 15){
+                            app.pages = 0;
+                        }else{
+                            app.pages = Math.ceil(resultado.total / 15);
+                        }                            
+                        app.messages = resultado.hits.map(r=>{                               
+                           r.svnUrl = encodeURI(r._source.file.url);
+                           return r;
+                        });
+                      }
                     });
+                },
+                pesquisar:function(pag){
+                    $.ajax({
+                      url: "/search",
+                      data: {
+                       "q":app.q,
+                       "size":15,
+                       "from":0
+                      },
+                      success: function( resultado ) {  
+                        if(resultado.total <= 15){
+                            app.pages = 0;
+                        }else{
+                            app.pages = Math.ceil(resultado.total / 15);    
+                        }                            
+                        app.messages = resultado.hits.map(r=>{                               
+                           r.svnUrl = encodeURI(r._source.file.url);
+                           return r;
+                        });
+                      }
+                    });    
+                    
                 }
             }
         })

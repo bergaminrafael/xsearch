@@ -1,6 +1,6 @@
 var elasticsearch = require('elasticsearch');
 var client = new elasticsearch.Client({
-	host: 'localhost:9200'
+	host: 'http://xsearch.brazilsouth.cloudapp.azure.com'
 });
 var url = require('url');
 var express = require('express');
@@ -22,26 +22,38 @@ app.get('/search', function (req, res) {
         }
       }
     }).then(function (resp) {
+        try{
         console.log(resp)
         resp.hits.hits = resp.hits.hits
             .map(r=>{    
-               var parts = r._source.content.split(new RegExp('(' + query.q + ')', 'gi'));
-                var text = "";
+               if(!r._source.content){
+                   r._source.content = "";
+                   return r;
+               }    
+                //var parts = r._source.content.split(new RegExp('(' + query.q + ')', 'gi'));
+                //var text = "";
+                var text = r._source.content ;
                 var flag = false;
-                parts.forEach(p =>{
+                /*parts.forEach(p =>{
                     if(p.length > 100){
                         text += "..."+p.substr(p.length-100,p.length);    
                     }else{
                         text += p;
                     }
                     text += " ";
-                });
-               r._source.content = text;
+                });*/
+               r._source.content = text.substring(0,400);
                return r;
             });
-        res.send(resp.hits);        
+        console.log("a");
+        res.send(resp.hits);
+        }catch(e){
+            console.log(e);
+            res.send([]);
+        }
     }, function (err) {
         console.log(err);
+        console.log("erro");
         res.send([]);
     });    
 });
