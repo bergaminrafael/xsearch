@@ -42,7 +42,7 @@ app.get('/search', function (req, res) {
                     }
                     text += " ";
                 });*/
-               r._source.content = text.substring(0,400);
+               r._source.content = text.substring(0,800);
                return r;
             });
         console.log("a");
